@@ -1,6 +1,6 @@
-# OpenManus Frontend
+# OpenManus Frontend - Integrated with Backend
 
-A modern, responsive frontend interface for OpenManus that replicates the Bolt.new UI/UX experience.
+A modern, responsive frontend interface for OpenManus that replicates the Bolt.new UI/UX experience and integrates seamlessly with the OpenManus backend.
 
 ## Features
 
@@ -11,6 +11,10 @@ A modern, responsive frontend interface for OpenManus that replicates the Bolt.n
 - 🔧 **Component-Based** - Reusable, maintainable component architecture
 - ♿ **Accessible** - Built with accessibility best practices
 - 🚀 **GitHub Integration** - Import repositories with validation and error handling
+- 🤖 **AI Agent Interface** - Run different types of AI agents (Manus, Browser, SWE, Data Analysis)
+- 📊 **Real-time Status** - Live agent execution monitoring with step-by-step progress
+- 🔄 **Repository Management** - Import, manage, and switch between GitHub repositories
+- 🌐 **Backend Integration** - Seamless connection to OpenManus Python backend
 
 ## Tech Stack
 
@@ -20,6 +24,7 @@ A modern, responsive frontend interface for OpenManus that replicates the Bolt.n
 - **Framer Motion** - Smooth animations and transitions
 - **Vite** - Fast build tool and dev server
 - **Lucide React** - Beautiful, customizable icons
+- **Context API** - State management for agent and repository data
 
 ## Getting Started
 
@@ -46,6 +51,15 @@ npm install
 npm run dev
 ```
 
+4. Start the OpenManus backend (in a separate terminal):
+```bash
+# Navigate to the OpenManus backend directory
+cd path/to/OpenManus
+python main.py
+```
+
+The backend should be running on `http://localhost:8000` for the frontend to connect properly.
+
 4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ## Project Structure
@@ -57,8 +71,16 @@ src/
 │   ├── Header.tsx      # Main navigation header
 │   ├── WelcomeScreen.tsx # Hero section and quick start
 │   ├── ImportModal.tsx # GitHub repository import modal
+│   ├── Dashboard.tsx   # Main dashboard interface
+│   ├── AgentInterface.tsx # AI agent interaction component
+│   ├── RepositoryManager.tsx # Repository management
+│   ├── ConnectionStatus.tsx # Backend connection indicator
 │   └── Toast.tsx       # Toast notification system
 ├── contexts/           # React contexts for state management
+│   ├── ToastContext.tsx # Toast notifications
+│   └── OpenManusContext.tsx # OpenManus backend integration
+├── services/           # API services and backend integration
+│   └── api.ts         # OpenManus API client
 ├── utils/              # Utility functions
 ├── types/              # TypeScript type definitions
 └── main.tsx           # Application entry point
@@ -70,7 +92,12 @@ src/
 - Responsive navigation with logo and actions
 - Import repository button
 - Clean, modern design
+- Dashboard navigation
 
+### Dashboard
+- Tabbed interface for different functionalities
+- Collapsible sidebar navigation
+- Real-time connection status
 ### WelcomeScreen
 - Hero section with gradient text effects
 - Quick start template buttons
@@ -83,6 +110,23 @@ src/
 - Loading states and animations
 - Permission error simulation
 
+### AgentInterface
+- Select different agent types (Manus, Browser, SWE, Data Analysis)
+- Submit prompts and monitor execution
+- Real-time step-by-step progress tracking
+- Agent history and results display
+
+### RepositoryManager
+- View imported repositories
+- Repository details (stars, forks, language, etc.)
+- Select active repository for agent operations
+- Refresh repository list
+
+### ConnectionStatus
+- Real-time backend connection monitoring
+- Connection retry functionality
+- Visual connection indicators
+
 ### Toast System
 - Context-based notification system
 - Multiple toast types (success, error, warning, info)
@@ -90,6 +134,15 @@ src/
 - Smooth animations
 
 ## Customization
+
+### Backend Configuration
+The frontend connects to the OpenManus backend at `http://localhost:8000` by default. You can modify this in `src/services/api.ts`:
+
+```typescript
+const api = new OpenManusAPI({ 
+  baseUrl: 'http://your-backend-url:port' 
+})
+```
 
 ### Colors
 The color scheme can be customized in `tailwind.config.js`. The current theme uses:
@@ -112,11 +165,35 @@ All components are built with:
 - Framer Motion for animations
 - Accessibility considerations
 
+## Backend Integration
+
+The frontend integrates with the OpenManus Python backend through:
+
+- **Agent Operations**: Run different types of AI agents with real-time monitoring
+- **Repository Management**: Import and manage GitHub repositories
+- **Health Monitoring**: Check backend connection status
+- **Error Handling**: Graceful degradation when backend is unavailable
+
+### API Endpoints
+- `POST /api/agent/run` - Execute an AI agent
+- `GET /api/agent/{id}/status` - Get agent execution status
+- `POST /api/repository/import` - Import a GitHub repository
+- `GET /api/repositories` - List imported repositories
+- `GET /api/health` - Backend health check
+
 ## Building for Production
 
 ```bash
 npm run build
 ```
+
+## Architecture Decisions
+
+1. **State Management**: Used React Context API for global state management instead of Redux for simplicity
+2. **API Integration**: Created a dedicated API service layer for backend communication
+3. **Real-time Updates**: Implemented polling for agent status updates (WebSocket support can be added later)
+4. **Error Handling**: Graceful degradation when backend is unavailable with demo mode fallbacks
+5. **Component Structure**: Maintained separation between UI components and business logic
 
 The built files will be in the `dist` directory.
 

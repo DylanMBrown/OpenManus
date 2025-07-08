@@ -5,9 +5,10 @@ import Button from './ui/Button'
 
 interface HeaderProps {
   onImportClick: () => void
+  onDashboardClick: () => void
 }
 
-const Header: React.FC<HeaderProps> = ({ onImportClick }) => {
+const Header: React.FC<HeaderProps> = ({ onImportClick, onDashboardClick }) => {
   return (
     <motion.header 
       initial={{ y: -20, opacity: 0 }}
@@ -51,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ onImportClick }) => {
               <span>Import Repository</span>
             </Button>
             
-            <Button variant="primary">
+            <Button variant="primary" onClick={onDashboardClick}>
               Get Started
             </Button>
           </div>

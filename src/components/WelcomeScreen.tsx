@@ -6,9 +6,10 @@ import QuickStartButton from './QuickStartButton'
 
 interface WelcomeScreenProps {
   onImportClick: () => void
+  onGetStarted: () => void
 }
 
-const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onImportClick }) => {
+const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onImportClick, onGetStarted }) => {
   const quickStartOptions = [
     {
       icon: <Code className="w-5 h-5" />,
@@ -82,6 +83,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onImportClick }) => {
             <Button
               variant="secondary"
               size="lg"
+              onClick={onGetStarted}
               className="min-w-[200px]"
             >
               Start from Scratch
@@ -104,6 +106,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onImportClick }) => {
               <QuickStartButton
                 key={index}
                 {...option}
+                onClick={onGetStarted}
                 delay={0.1 * index}
               />
             ))}
